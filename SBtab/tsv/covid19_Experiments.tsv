@@ -1,0 +1,3 @@
+!!SBtab	Document='covid19' TableName='Experiments' TableType='QuantityMatrix' TableTitle='rates'			
+!ID	!Name	!Type	>CLU1	!Reference
+E0	Observations	Time Series	1	https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Sweden

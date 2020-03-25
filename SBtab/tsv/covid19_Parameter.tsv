@@ -1,0 +1,7 @@
+!!SBtab	Document='covid19' TableName='Parameter' TableType='Quantity' TableTitle='rates'				
+!ID	!Name	!Scale	!DefaultValue	!Unit	!Std
+P0	b	linear	0.25	1/day	1
+P1	a	linear	0.18181818181818182	1/day	1
+P2	c	linear	0.006	1/day	1
+P3	l	linear	0.1	1/day	1
+P4	m	linear	0.1	1/day	1

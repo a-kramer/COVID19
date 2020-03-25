@@ -1,0 +1,3 @@
+!!SBtab	Document='covid19' TableName='Suggested Input' TableTitle='The model has conservation laws that were automatically determined, these are the conserved constants' TableType='Quantity'
+!ID	!Name	!DefaultValue	!Unit	!ConservationLaw	!Comment
+CLU1	S_ConservedConst	1	nM	TRUE	S_ConservedConst = S+1*E+1*I+1*K+1*R
