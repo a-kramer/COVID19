@@ -1,17 +1,17 @@
 #!/usr/bin/octave-cli -q
-SampleFile="../mcmc_rank_00_of_8_covid19_covid19_2020-03-25T22h02m.h5"
+SampleFiles=cellstr(ls("-t ../*h5"));
+l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));
+i=find(l,1);
+SampleFile=SampleFiles{i};
 Tok=regexp(SampleFile,"_([^_]+)[.]h5$",'tokens','once');
 FPrefix=Tok{1};
 assert(exist(SampleFile,"file"));
 
-
 load('../data/covid19.h5')
 
 
-if not(exist("LogPosterior","var"))
-  assert(exist(SampleFile,'file'));
-  load(SampleFile);
-endif
+assert(exist(SampleFile,'file'));
+load(SampleFile);
 
 cc=corrcoef(LogParameters');
 addpath("~/scripts");

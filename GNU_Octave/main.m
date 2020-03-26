@@ -1,14 +1,17 @@
 #!/usr/bin/octave-cli -q
 set(0,"defaulttextinterpreter","none")
 #SampleFile="../mcmc_rank_00_of_8_covid19_covid19_2020-03-25T17h56m.h5"
-SampleFile="../mcmc_rank_00_of_8_covid19_covid19_2020-03-25T22h02m.h5"
+SampleFiles=cellstr(ls("-t ../*h5"));
+l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));
+i=find(l,1);
+SampleFile=SampleFiles{i};
 Tok=regexp(SampleFile,"_([^_]+)[.]h5$",'tokens','once');
 FPrefix=Tok{1};
 assert(exist(SampleFile,"file"));
 ## load my scripts repository
 addpath("~/scripts");
 addpath("../matlab");
-if ~exist("LogPosterior","var")
+#if ~exist("LogPosterior","var")
   load(SampleFile);
   ModelName="covid19";
   ParNames=ostrsplit(ParameterNames,"; ",true);
@@ -20,10 +23,19 @@ if ~exist("LogPosterior","var")
   FuncNames=ostrsplit(OutputFunctionNames,"; ",true);
   [MPE,I]=max(LogPosterior);
   k=LogParameters(:,I);
+  printf("maximum posterior estimat (%g):\n",MPE);
+  printf(" %g\n",exp(k));
+  printf("... in linear scale.\n");
   NumInputs=length(unames);
   NumStateVars=length(StateVarNames);
   NumOut=length(FuncNames);
-endif
+  figure(1); clf;
+  plot(LogPosterior);
+  xlabel("iterations");
+  ylabel("log(p(par|data))+const.");
+  title("log-posterior");
+  saveas(gcf,"LogPosterior.png");
+#endif
 
 sbtab_tsv=cellstr(ls(sprintf("../SBtab/tsv/%s*tsv",ModelName)));
 covid19=sbtab_doc(sbtab_tsv);
@@ -79,7 +91,6 @@ for i=1:NumExp
     subplot(n_row,n_col,j); cla;
     plot(Optimal.T{i},Optimal.F{i}(:,j),"-;optimal fit;"); hold on;
     plot(Default.T{i},Default.F{i}(:,j),"-;initial fit;"); hold on;
-    legend(gca,"location","southwest");
     SIM{1}(i)=Optimal.F{i}(end,1);
     SIM{2}(i)=Default.F{i}(end,1);
     D=Y{i}(:,j);
@@ -96,3 +107,4 @@ for i=1:NumExp
   pngf=sprintf("OutputFunctionsExperiment%i.png",i);
   saveas(gcf,pngf);
 endfor
+

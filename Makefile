@@ -15,7 +15,7 @@ VFGEN = vfgen
 VFGEN_W_CVODES = ~/mcmc_clib/vfgen
 
 
-all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c
+all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c ./SBtab/$(MODEL).tar.gz ./SBtab/$(MODEL).zip
 
 clean:
 	rm ./C/$(MODEL).so ./data/$(MODEL).h5 ./matlab/$(MODEL)_*.m ./SBtab/tsv/$(MODEL)_*.tsv ./C/$(MODEL)_cvs.[ch] ./vfgen/$(MODEL).vf
@@ -41,10 +41,10 @@ clean:
 ./matlab/$(MODEL)_vf.m: ./vfgen/$(MODEL).vf
 	cd ./matlab/ && $(VFGEN) matlab:func=yes ../vfgen/$(MODEL).vf
 
-./SBtab/$(MODEL).tar.gz: ./SBtab/$(MODEL)*.tsv
-	cd ./SBtab && tar czf $@ $^
+./SBtab/$(MODEL).tar.gz: ./SBtab/tsv/$(MODEL)*.tsv
+	tar czf $@ $^
 
-./SBtab/$(MODEL).zip: ./SBtab/$(MODEL)*.tsv
-	cd ./SBtab && zip $@ $^
+./SBtab/$(MODEL).zip: ./SBtab/tsv/$(MODEL)*.tsv
+	zip $@ $^
 
 

@@ -1,7 +1,7 @@
 TITLE covid19
 COMMENT
 	automatically generated from an SBtab file
-	date: Wed Mar 25 22:02:16 2020
+	date: Thu Mar 26 10:05:25 2020
 ENDCOMMENT
 NEURON {
 	SUFFIX covid19 : OR perhaps POINT_PROCESS ?
@@ -12,11 +12,11 @@ NEURON {
 CONSTANT {
 }
 PARAMETER {
-	b = 0.25 (/day): a kinetic parameter
-	a = 0.181818 (/day): a kinetic parameter
-	c = 0.006 (/day): a kinetic parameter
-	l = 0.1 (/day): a kinetic parameter
-	m = 0.1 (/day): a kinetic parameter
+	b = 0.302891 (/day): a kinetic parameter
+	a = 0.196969 (/day): a kinetic parameter
+	c = 0.00869496 (/day): a kinetic parameter
+	l = 0.138194 (/day): a kinetic parameter
+	m = 0.693324 (/day): a kinetic parameter
 	Susceptible_ConservedConst = 1 : the total amount of a conserved sub-set of states
 }
 ASSIGNED {
@@ -49,7 +49,7 @@ STATE {
 INITIAL {
 	: Susceptible cannot have initial values as it is determined by conservation law
 	 Exposed = 0 : initial condition
-	 Infectious = 0 : initial condition
+	 Infectious = 2e-07 : initial condition
 	 K = 0 : initial condition
 	 Recovered = 0 : initial condition
 }

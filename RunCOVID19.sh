@@ -16,11 +16,12 @@ StepSize="0.02";
 T0="-1"
 M="1.5"
 
+RESUME="TRUE"
+
 MCMC_SIZE="-w ${WarmUp} -s ${SampleSize}"
 MCMC_PARAMETERS="-i ${StepSize} -m $M ${RESUME:+--resume} -p"
 PARALLEL_TEMPERING="-g 4"
-ODE_PARAMETERS="--init-at-t ${T0} --max-step 7000 --rel-tol 1e-4 --abs-tol 1e-6"
-#ODE_PARAMETERS="--init-at-t ${T0}"
+ODE_PARAMETERS="--init-at-t ${T0} --max-step 7000 --rel-tol 1e-6 --abs-tol 1e-6"
 MCMC_FILES="-o ${SampleFile} -l ${ModelSO} --hdf5 ${ModelHDF5}"
 OPTIONS="${MCMC_SIZE} ${MCMC_FILES} ${MCMC_PARAMETERS} ${PARALLEL_TEMPERING} ${ODE_PARAMETERS}"
 NP=${1:-8}
