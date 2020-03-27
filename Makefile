@@ -5,17 +5,14 @@ export PATH := $(HOME)/Documents/SBtabVFGEN/:$(HOME)/mcmc_clib/bin:$(HOME)/mcmc_
 CC=gcc
 
 MODEL = covid19
-## the variables below should be changed if the programs that do these tasks are somewhere else
 ODS_TO_TSV = ./ods_to_tsv
 TSV_TO_ODS = ./tsv_to_ods
-## tsv_to_h5 can be done in different ways, an example implementation is in the mcmc_clib package
 TSV_TO_H5 = sbtab_import
-## we have a modified version of vfgen which comes with the CVODES module, normal vfgen has plain CVODE (no "s")
 VFGEN = vfgen
 VFGEN_W_CVODES = ~/mcmc_clib/vfgen
 
 
-all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c ./SBtab/$(MODEL).tar.gz ./SBtab/$(MODEL).zip
+all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c ./SBtab/$(MODEL).tar.gz ./SBtab/$(MODEL).zip ./SBtab/tsv/$(MODEL)_Experiments.tsv
 
 clean:
 	rm ./C/$(MODEL).so ./data/$(MODEL).h5 ./matlab/$(MODEL)_*.m ./SBtab/tsv/$(MODEL)_*.tsv ./C/$(MODEL)_cvs.[ch] ./vfgen/$(MODEL).vf
@@ -47,4 +44,5 @@ clean:
 ./SBtab/$(MODEL).zip: ./SBtab/tsv/$(MODEL)*.tsv
 	zip $@ $^
 
-
+./SBtab/tsv/$(MODEL)_Experiments.tsv: ./SBtab/$(MODEL).gnumeric
+	cd ./SBtab/tsv && ./ods_to_tsv ../$(MODEL).gnumeric

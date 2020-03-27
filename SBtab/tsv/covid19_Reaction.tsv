@@ -2,6 +2,7 @@
 !ID	!Name	!KineticLaw	!ReactionFormula
 R0	infection	b*Infectious*Susceptible	Susceptible + Infectious <=> Exposed + Infectious
 R1	outbreak	a*Exposed	Exposed <=> Infectious
-R2	critical	c*Infectious	Infectious <=> K
+R2	critical	c*Infectious	Infectious <=> Krit
 R3	quick_recovery	l*Infectious	Infectious <=> Recovered
-R4	late_recovery	m*K	K <=> Recovered
+R4	late_recovery	m*Krit	Krit <=> Recovered
+R5	death	q*Krit	Krit <=> Dead

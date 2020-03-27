@@ -26,7 +26,7 @@ l=ceil(tau+dtau);
 tgtN=1000;
 skip=N/tgtN;
 s=1:max(l,skip):N; # selection of parameter subset to plot
-#[~,rI]=sort(I);
+##[~,rI]=sort(I);
 k=sub2ind([m,m],I(1:m-1),I(2:m));
 ccv=cc(k);#flip(cc(k));
 ccvl=ostrsplit(sprintf("%+04.5f ",ccv)," ",true);
@@ -35,7 +35,7 @@ set(0,"defaulttextfontsize",14);
 set(0,"defaultaxesfontsize",14);
 figure(5); clf;
 opt.names=pNames(I);
-#pcplotV(LogParameters(I,s),LogPosterior(s),opt);
+##pcplotV(LogParameters(I,s),LogPosterior(s),opt);
 pcplot(LogParameters(I,s),LogPosterior(s),opt);
 ylabel("parameter value (log)");
 YL=ylim();

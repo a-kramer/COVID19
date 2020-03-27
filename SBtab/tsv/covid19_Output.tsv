@@ -1,4 +1,7 @@
 !!SBtab	Document='covid19' TableName='Output' TableTitle='Automatically determined conservation laws remove state variables, these outputs make them observable' TableType='Quantity'						
 !ID	!Name	!Comment	!ErrorName	!ErrorType	!Unit	!ProbDist	!Formula
 YCL1	Susceptible_mon	monitors implicit state	SDYCL1	not applicable	1	none	Susceptible
-Y0	Infectious_out		SDY0	standard deviation	1	normal	Infectious
+INFCT	Infectious_underestimate		SDINFCT	standard deviation	1	normal	Infectious
+REC	Recovered_underestimate		SDREC	standard deviation	1	normal	Recovered
+DEAD	Deaths_recorded		SDDEAD	standard deviation	1	normal	Dead
+KRIT	Critically_sick		SDKRIT	standard deviation	1	normal	Krit

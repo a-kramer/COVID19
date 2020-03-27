@@ -6,17 +6,17 @@ ModelXML=./vfgen/${Model}.vf
 ModelSO=./C/${Model}.so
 ModelHDF5=./data/${Model}.h5
 SampleFileDate="`date +%Y-%m-%dT%Hh%Mm`"
-SampleFile="${Model}_$SampleFileDate.h5"
+SampleFile="$SampleFileDate.h5"
 
-DefaultSampleSize=200000
+DefaultSampleSize=100000
 DefaultWarmUp=10000
 SampleSize=${2:-$DefaultSampleSize}
 WarmUp=${3:-$DefaultWarmUp}
 StepSize="0.02";
-T0="-1"
+T0="-10"
 M="1.5"
 
-RESUME="TRUE"
+#RESUME="TRUE"
 
 MCMC_SIZE="-w ${WarmUp} -s ${SampleSize}"
 MCMC_PARAMETERS="-i ${StepSize} -m $M ${RESUME:+--resume} -p"

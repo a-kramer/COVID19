@@ -87,10 +87,12 @@ n_col=ceil(sqrt(no));
 n_row=floor(sqrt(no));
 for i=1:NumExp
   figure(Fig+i); clf;
+  title(covid19.Experiments(i).("!Name"));
   for j=1:no
     subplot(n_row,n_col,j); cla;
     plot(Optimal.T{i},Optimal.F{i}(:,j),"-;optimal fit;"); hold on;
     plot(Default.T{i},Default.F{i}(:,j),"-;initial fit;"); hold on;
+##    lh=legend();
     SIM{1}(i)=Optimal.F{i}(end,1);
     SIM{2}(i)=Default.F{i}(end,1);
     D=Y{i}(:,j);
@@ -99,7 +101,11 @@ for i=1:NumExp
     display(size(D));
     display(size(SD));
     errorbar(Time{i},D,SD,sprintf("~+;data;"));
-    title(covid19.Experiments(i).("!Name"));
+    xlim([min(Time{i}),3*max(Time{i})]);
+    if (any(~isna(D)))
+      ylim([0,max(D)*1.2]);
+    endif
+    #title(covid19.Experiments(i).("!Name"));
     xlabel("t");
     ylabel(covid19.Output(j).("!Name"),'interpreter','none');
     hold off;

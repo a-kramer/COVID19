@@ -5,18 +5,24 @@
  <Parameter Name="c" Description="independent parameter P2" DefaultValue="0.00869496"/>
  <Parameter Name="l" Description="independent parameter P3" DefaultValue="0.138194"/>
  <Parameter Name="m" Description="independent parameter P4" DefaultValue="0.693324"/>
+ <Parameter Name="q" Description="independent parameter P5" DefaultValue="0.693324"/>
  <Parameter Name="Susceptible_ConservedConst" Description="conserved quantity eliminates Susceptible as a state variable" DefaultValue="1.000000"/>
- <Expression Name="Susceptible" Description="derived from conservation law 1" Formula="Susceptible_ConservedConst - (Exposed+Infectious+K+Recovered)"/>
+ <Expression Name="Susceptible" Description="derived from conservation law 1" Formula="Susceptible_ConservedConst - (Exposed+Infectious+Krit+Recovered+Dead)"/>
  <Expression Name="infection" Description="flux R0" Formula="b*Infectious*Susceptible"/>
  <Expression Name="outbreak" Description="flux R1" Formula="a*Exposed"/>
  <Expression Name="critical" Description="flux R2" Formula="c*Infectious"/>
  <Expression Name="quick_recovery" Description="flux R3" Formula="l*Infectious"/>
- <Expression Name="late_recovery" Description="flux R4" Formula="m*K"/>
-<!-- <StateVariable Name="Susceptible" Description="compound C0" DefaultInitialCondition="0.9999998" Formula="-infection"/> -->
+ <Expression Name="late_recovery" Description="flux R4" Formula="m*Krit"/>
+ <Expression Name="death" Description="flux R5" Formula="q*Krit"/>
+<!-- <StateVariable Name="Susceptible" Description="compound C0" DefaultInitialCondition="0.9999999" Formula="-infection"/> -->
  <StateVariable Name="Exposed" Description="compound C1" DefaultInitialCondition="0" Formula="+infection-outbreak"/>
- <StateVariable Name="Infectious" Description="compound C2" DefaultInitialCondition="2e-07" Formula="+infection-infection+outbreak-critical-quick_recovery"/>
- <StateVariable Name="K" Description="compound C3" DefaultInitialCondition="0" Formula="+critical-late_recovery"/>
+ <StateVariable Name="Infectious" Description="compound C2" DefaultInitialCondition="1e-07" Formula="+infection-infection+outbreak-critical-quick_recovery"/>
+ <StateVariable Name="Krit" Description="compound C3" DefaultInitialCondition="0" Formula="+critical-late_recovery-death"/>
  <StateVariable Name="Recovered" Description="compound C4" DefaultInitialCondition="0" Formula="+quick_recovery+late_recovery"/>
+ <StateVariable Name="Dead" Description="compound C5" DefaultInitialCondition="0" Formula="+death"/>
  <Function Name="Susceptible_mon" Description="output YCL1" Formula="Susceptible"/>
- <Function Name="Infectious_out" Description="output Y0" Formula="Infectious"/>
+ <Function Name="Infectious_underestimate" Description="output INFCT" Formula="Infectious"/>
+ <Function Name="Recovered_underestimate" Description="output REC" Formula="Recovered"/>
+ <Function Name="Deaths_recorded" Description="output DEAD" Formula="Dead"/>
+ <Function Name="Critically_sick" Description="output KRIT" Formula="Krit"/>
 </VectorField>
