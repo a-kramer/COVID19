@@ -21,7 +21,7 @@ clean:
 	cd ./C && $(VFGEN_W_CVODES) cvodes:func=yes,sens=yes ../vfgen/$(MODEL).vf
 
 ./C/$(MODEL)_cvs_lpow.c: ./C/$(MODEL)_cvs.c
-	sed -E -e 's/pow\(([^,(]+),([0-9]+).0\)/lpow(\1,\2)/g' -e '10 a \#include \"lpow.h\"' $< > $@ 
+	sed -E -e 's/pow\(([^,(]+),([0-9]+).0\)/lpow(\1,\2)/g' -e '10 a \#include \"lpow.h\"' -e 's/const realtype Pi = RCONST\(M_PI\);//g' $< > $@ 
 
 ./C/$(MODEL).so: ./C/$(MODEL)_cvs_lpow.c ./C/lpow.c
 	$(CC) -shared -fPIC -O2 $^ -o $@

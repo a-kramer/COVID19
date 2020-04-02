@@ -1,8 +1,8 @@
 !!SBtab	Document='covid19' TableName='Compound' TableType='Compound' TableTitle='state of infection'				
 !ID	!Name	!Unit	!InitialValue	!Type	!Comment
-C0	Susceptible	1	0.9999999	kinetic	fraction of susceptible individuals
+C0	Susceptible	1	1	kinetic	fraction of susceptible individuals
 C1	Exposed	1	0	kinetic	In incubation phase
-C2	Infectious	1	1E-07	kinetic	Sick and infectious
+C2	Infectious	1	0	kinetic	Sick and infectious
 C3	Krit	1	0	kinetic	Critically sick
 C4	Recovered	1	0	kinetic	Immune
 C5	Dead	1	0	kinetic	Counts deaths

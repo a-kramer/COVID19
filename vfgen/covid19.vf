@@ -1,22 +1,32 @@
 <?xml version="1.0" ?>
 <VectorField Name="covid19" Description="model created by an R script «sbtab_to_vfgen.R» (https://github.com/a-kramer/SBtabVFGEN)">
- <Parameter Name="b" Description="independent parameter P0" DefaultValue="0.302891"/>
- <Parameter Name="a" Description="independent parameter P1" DefaultValue="0.196969"/>
- <Parameter Name="c" Description="independent parameter P2" DefaultValue="0.00869496"/>
- <Parameter Name="l" Description="independent parameter P3" DefaultValue="0.138194"/>
- <Parameter Name="m" Description="independent parameter P4" DefaultValue="0.693324"/>
- <Parameter Name="q" Description="independent parameter P5" DefaultValue="0.693324"/>
+ <Constant Name="Population" Description="constant POP" Value="10120000"/>
+ <Parameter Name="b" Description="independent parameter P0" DefaultValue="0.25"/>
+ <Parameter Name="a" Description="independent parameter P1" DefaultValue="0.181818"/>
+ <Parameter Name="c" Description="independent parameter P2" DefaultValue="0.006"/>
+ <Parameter Name="l" Description="independent parameter P3" DefaultValue="0.1"/>
+ <Parameter Name="m" Description="independent parameter P4" DefaultValue="0.1"/>
+ <Parameter Name="q" Description="independent parameter P5" DefaultValue="0.0315453"/>
+ <Parameter Name="g" Description="independent parameter P6" DefaultValue="10"/>
  <Parameter Name="Susceptible_ConservedConst" Description="conserved quantity eliminates Susceptible as a state variable" DefaultValue="1.000000"/>
  <Expression Name="Susceptible" Description="derived from conservation law 1" Formula="Susceptible_ConservedConst - (Exposed+Infectious+Krit+Recovered+Dead)"/>
+ <Expression Name="sigma" Description="defined expression SIGMA" Formula="4"/>
+ <Expression Name="mu" Description="defined expression MU" Formula="-g"/>
+ <Expression Name="DIFF" Description="defined expression X1" Formula="(t-mu)/sigma"/>
+ <Expression Name="DIFFSQ" Description="defined expression X2" Formula="DIFF*DIFF"/>
+ <Expression Name="EDIFFSQ" Description="defined expression X3" Formula="exp(-0.5*DIFFSQ)"/>
+ <Expression Name="NORM" Description="defined expression X4" Formula="sqrt(2*Pi)*sigma"/>
+ <Expression Name="Gaussian" Description="defined expression N" Formula="EDIFFSQ/NORM"/>
  <Expression Name="infection" Description="flux R0" Formula="b*Infectious*Susceptible"/>
  <Expression Name="outbreak" Description="flux R1" Formula="a*Exposed"/>
  <Expression Name="critical" Description="flux R2" Formula="c*Infectious"/>
  <Expression Name="quick_recovery" Description="flux R3" Formula="l*Infectious"/>
  <Expression Name="late_recovery" Description="flux R4" Formula="m*Krit"/>
  <Expression Name="death" Description="flux R5" Formula="q*Krit"/>
-<!-- <StateVariable Name="Susceptible" Description="compound C0" DefaultInitialCondition="0.9999999" Formula="-infection"/> -->
+ <Expression Name="initial_infection" Description="flux R6" Formula="Gaussian/Population"/>
+<!-- <StateVariable Name="Susceptible" Description="compound C0" DefaultInitialCondition="1" Formula="-infection-initial_infection"/> -->
  <StateVariable Name="Exposed" Description="compound C1" DefaultInitialCondition="0" Formula="+infection-outbreak"/>
- <StateVariable Name="Infectious" Description="compound C2" DefaultInitialCondition="1e-07" Formula="+infection-infection+outbreak-critical-quick_recovery"/>
+ <StateVariable Name="Infectious" Description="compound C2" DefaultInitialCondition="0" Formula="+infection-infection+outbreak-critical-quick_recovery+initial_infection"/>
  <StateVariable Name="Krit" Description="compound C3" DefaultInitialCondition="0" Formula="+critical-late_recovery-death"/>
  <StateVariable Name="Recovered" Description="compound C4" DefaultInitialCondition="0" Formula="+quick_recovery+late_recovery"/>
  <StateVariable Name="Dead" Description="compound C5" DefaultInitialCondition="0" Formula="+death"/>

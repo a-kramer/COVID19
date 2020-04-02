@@ -35,18 +35,32 @@ set(0,"defaulttextfontsize",14);
 set(0,"defaultaxesfontsize",14);
 figure(5); clf;
 opt.names=pNames(I);
-##pcplotV(LogParameters(I,s),LogPosterior(s),opt);
-pcplot(LogParameters(I,s),LogPosterior(s),opt);
+
+## common sense filters
+## recovery while critical (k5) should be slower than normal recovery (k4)
+csf{1}=find(LogParameters(4,:)>LogParameters(5,:)); # 1 filters all Parameters
+csf{2}=find(LogParameters(4,s)>LogParameters(5,s)); # 2 filters the I subset;
+  
+v=[1,0.8,0.5,0.3,0];
+clr=[0,0,0;
+     0.5,0.5,0.95;
+     0.8,0.8,0.9;
+     0.9,0.9,0.9;
+     1,1,1];
+opt.colormap=custom_colormap(v,clr,128);
+
+pcplot(LogParameters(I,s(csf{2})),LogPosterior(s(csf{2})),opt);
 ylabel("parameter value (log)");
+title("constraint: l>m");
 YL=ylim();
 ta=text((1:m-1)+0.5,ones(1,m-1)*YL(2),ccvl);
 set(ta,"color",ones(1,3)*0.3);
-set(ta,"rotation",45);
+#set(ta,"rotation",45);
 hold on;
 eb=errorbar((1:m),prior.mu(I),prior.sigma(I),"~+;;");
-set(eb,"color",[0.5,0.2,0.2],"linewidth",3);
+set(eb,"color",[0.4,0.2,0.2],"linewidth",3);
 eb=errorbar((1:m),prior.mu(I),prior.sigma(I),"~+;;");
-set(eb,"color",[0.5,0.8,0.8]);
+set(eb,"color",[0.8,0.9,0.9]);
 
 grid("on");
 cb=colorbar();

@@ -1,7 +1,10 @@
 #!/usr/bin/octave-cli -q
 set(0,"defaulttextinterpreter","none")
+load("../data/covid19.h5");
+lsode_options("absolute tolerance",1e-12);
 #SampleFile="../mcmc_rank_00_of_8_covid19_covid19_2020-03-25T17h56m.h5"
 SampleFiles=cellstr(ls("-t ../*h5"));
+T0=-30;
 l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));
 i=find(l,1);
 SampleFile=SampleFiles{i};
@@ -68,13 +71,13 @@ endfor
 
 
 MaxTime=max(Time{1})*1.05;
-time=linspace(0,MaxTime*3,nt=ceil(3*MaxTime));
+time=linspace(T0,MaxTime*3,nt=ceil(3*MaxTime));
 
 fname={covid19.Output.("!Name")};
 covid19_fname=strcat("covid19_",fname);
 
 k_opt=k;
-k_def=cat(1,covid19.Parameter.("!DefaultValue"));
+k_def=prior.mu;
 
 [Optimal.T,Optimal.X,Optimal.F]=sim_all_experiments(covid19,time,k_opt,covid19_fname,[],sprintf("%s_Optimal",FPrefix));
 [Default.T,Default.X,Default.F]=sim_all_experiments(covid19,time,k_def,covid19_fname,[],sprintf("%s_Default",FPrefix));
@@ -89,22 +92,32 @@ for i=1:NumExp
   figure(Fig+i); clf;
   title(covid19.Experiments(i).("!Name"));
   for j=1:no
-    subplot(n_row,n_col,j); cla;
-    plot(Optimal.T{i},Optimal.F{i}(:,j),"-;optimal fit;"); hold on;
-    plot(Default.T{i},Default.F{i}(:,j),"-;initial fit;"); hold on;
-##    lh=legend();
-    SIM{1}(i)=Optimal.F{i}(end,1);
-    SIM{2}(i)=Default.F{i}(end,1);
     D=Y{i}(:,j);
     SD=SD_Y{i}(:,j);
     display(size(Time{i}));
     display(size(D));
     display(size(SD));
-    errorbar(Time{i},D,SD,sprintf("~+;data;"));
-    xlim([min(Time{i}),3*max(Time{i})]);
-    if (any(~isna(D)))
-      ylim([0,max(D)*1.2]);
+    l=isna(SD);
+    subplot(n_row,n_col,j); cla;
+    if (mean(Optimal.F{i}(:,j)<=0)<0.05)
+      semilogy(Optimal.T{i},Optimal.F{i}(:,j),"-;optimal fit;"); hold on;
+      semilogy(Default.T{i},Default.F{i}(:,j),"-;initial fit;"); hold on;
+      semilogyerr(Time{i}(~l),D(~l),SD(~l),sprintf("~+;data;"));
+      if any(l)
+	semilogy(Time{i},D(l),"+;;");
+      endif
+    else
+      plot(Optimal.T{i},Optimal.F{i}(:,j),"-;optimal fit;"); hold on;
+      plot(Default.T{i},Default.F{i}(:,j),"-;initial fit;"); hold on;
+      errorbar(Time{i}(~l),D(~l),SD(~l),sprintf("~+;data;"));
+      if any(l)
+	plot(Time{i},D(l),"+;;");
+      endif
     endif
+#    xlim([min(Time{i}),3*max(Time{i})]);
+#    if (any(~isna(D)))
+#      ylim([0,max(D)*1.2]);
+#    endif
     #title(covid19.Experiments(i).("!Name"));
     xlabel("t");
     ylabel(covid19.Output(j).("!Name"),'interpreter','none');

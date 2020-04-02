@@ -16,7 +16,7 @@ function [T,X,F]=sim_all_experiments(covid19,time,k,fname,ev,label)
 	  u(j)=covid19.Experiments(i).(RefUID);
 	endif
       endfor
-      printf("simulating Exp %i/%i.\n",i,NumExp);
+      #printf("simulating Exp %i/%i.\n",i,NumExp);
       if isempty(ev)
 	[t,x,y]=sim_without_events(@covid19_vf,@covid19_jac,k,u,x0,time,fname);
       else

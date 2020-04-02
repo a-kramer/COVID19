@@ -8,27 +8,29 @@ ModelHDF5=./data/${Model}.h5
 SampleFileDate="`date +%Y-%m-%dT%Hh%Mm`"
 SampleFile="$SampleFileDate.h5"
 
-DefaultSampleSize=100000
-DefaultWarmUp=10000
+DefaultSampleSize=400000
+DefaultWarmUp=20000
 SampleSize=${2:-$DefaultSampleSize}
 WarmUp=${3:-$DefaultWarmUp}
 StepSize="0.02";
-T0="-10"
+T0="-30"
 M="1.5"
 
 #RESUME="TRUE"
 
 MCMC_SIZE="-w ${WarmUp} -s ${SampleSize}"
 MCMC_PARAMETERS="-i ${StepSize} -m $M ${RESUME:+--resume} -p"
-PARALLEL_TEMPERING="-g 4"
-ODE_PARAMETERS="--init-at-t ${T0} --max-step 7000 --rel-tol 1e-6 --abs-tol 1e-6"
+PARALLEL_TEMPERING="-g 1"
+ODE_PARAMETERS="--init-at-t ${T0} --max-step 7000 --rel-tol 1e-6 --abs-tol 1e-13"
 MCMC_FILES="-o ${SampleFile} -l ${ModelSO} --hdf5 ${ModelHDF5}"
 OPTIONS="${MCMC_SIZE} ${MCMC_FILES} ${MCMC_PARAMETERS} ${PARALLEL_TEMPERING} ${ODE_PARAMETERS}"
-NP=${1:-8}
+n_cpu=`egrep processor /proc/cpuinfo | wc -l`
+((n_cores=n_cpu/2))
+NP=${1:-$n_cores}
 P=`h5dump -A -d /prior/mu ${ModelHDF5} | egrep DATASPACE | sed -E 's/.*\{\s*\( ([0-9]+).*/\1/'`
 
-n_cpu=`egrep processor /proc/cpuinfo | wc -l`
-export OMP_NUM_THREADS=$((n_cpu/NP))
+
+export OMP_NUM_THREADS=2
 
 cat<<EOF
 $0
