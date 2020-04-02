@@ -1,0 +1,3 @@
+!!SBtab	Document='covid19' TableName='Constant' TableTitle='pre defined static constants' TableType='Quantity'			
+!ID	!Name	!Value	!Unit	!Comment
+POP	Population	10120000	1	Sweden

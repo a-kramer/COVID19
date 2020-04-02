@@ -1,0 +1,9 @@
+!!SBtab	Document='covid19' TableName='Expression' TableTitle='pre defined algebraic expressions' TableType='Quantity'		
+!ID	!Name	!Formula	!Comment
+SIGMA	sigma	4	this can be another value as well, but not too big not too small
+MU	mu	-g	the mode parameter g is subject to sampling (~optimization)
+X1	DIFF	(t-mu)/sigma	convenience expression
+X2	DIFFSQ	DIFF*DIFF	convenience expression
+X3	EDIFFSQ	exp(-0.5*DIFFSQ)	convenience expression
+X4	NORM	sqrt(2*Pi)*sigma	normalisation to 1.0
+N	Gaussian	EDIFFSQ/NORM	probability density of first infection
