@@ -12,6 +12,12 @@ load('../data/covid19.h5')
 
 assert(exist(SampleFile,'file'));
 load(SampleFile);
+length(LogPosterior)
+[v,dv,ddv,tau,dtau,gof]=UWerr(LogPosterior');
+
+## apply filters on parameters to exclude combinations that are very unlikely:
+[LogPosterior,LogParameters]=filters(LogPosterior,LogParameters);
+
 
 cc=corrcoef(LogParameters');
 addpath("~/scripts");
@@ -19,13 +25,13 @@ addpath("~/scripts");
 I=sort_by_correlation(cc);
 
 pNames=ostrsplit(ParameterNames,"; ",true);
-[v,dv,ddv,tau,dtau,gof]=UWerr(LogPosterior');
+
 N=length(LogPosterior);
 m=rows(LogParameters);
 l=ceil(tau+dtau);
-tgtN=1000;
-skip=N/tgtN;
-s=1:max(l,skip):N; # selection of parameter subset to plot
+tgtN=2000;
+skip=max(l,N/tgtN);
+s=1:skip:N; # selection of parameter subset to plot
 ##[~,rI]=sort(I);
 k=sub2ind([m,m],I(1:m-1),I(2:m));
 ccv=cc(k);#flip(cc(k));
@@ -36,11 +42,6 @@ set(0,"defaultaxesfontsize",14);
 figure(5); clf;
 opt.names=pNames(I);
 
-## common sense filters
-## recovery while critical (k5) should be slower than normal recovery (k4)
-csf{1}=find(LogParameters(4,:)>LogParameters(5,:)); # 1 filters all Parameters
-csf{2}=find(LogParameters(4,s)>LogParameters(5,s)); # 2 filters the I subset;
-  
 v=[1,0.8,0.5,0.3,0];
 clr=[0,0,0;
      0.5,0.5,0.95;
@@ -49,7 +50,7 @@ clr=[0,0,0;
      1,1,1];
 opt.colormap=custom_colormap(v,clr,128);
 
-pcplot(LogParameters(I,s(csf{2})),LogPosterior(s(csf{2})),opt);
+pcplot(LogParameters(I,s),LogPosterior(s),opt);
 ylabel("parameter value (log)");
 title("constraint: l>m");
 YL=ylim();

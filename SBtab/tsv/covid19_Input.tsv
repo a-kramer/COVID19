@@ -1,3 +1,4 @@
 !!SBtab	Document='covid19' TableName='Input' TableTitle='The model has conservation laws that were automatically determined, these are the conserved constants' TableType='Quantity'				
 !ID	!Name	!DefaultValue	!Unit	!ConservationLaw	!Comment
-CLU1	S_ConservedConst	1	nM	TRUE	S_ConservedConst = Susceptible+1*Exposed+1*Infectious+1*K+1*Recovered
+U0	distancing_on	0	1	FALSE	social distancing on (1) or off (0)
+CLU1	S_ConservedConst	1	1	TRUE	Susceptible_ConservedConst = Susceptible+1*Exposed+1*Infectious+1*Krit+1*Recovered+1*Dead

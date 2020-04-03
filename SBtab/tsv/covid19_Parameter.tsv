@@ -1,9 +1,10 @@
 !!SBtab	Document='covid19' TableName='Parameter' TableType='Quantity' TableTitle='rates'								
-!ID	!Name	!Scale	!DefaultValue	!Unit	!Std	!Comment	%	% Original Value	%Value:linspace
-P0	b	log	-1.3862943611198906	1/day	5		%	0.25	0.25
-P1	a	log	-1.7047480922384253	1/day	5		%	0.18181818181818182	0.18181818181818182
-P2	c	log	-5.115995809754082	1/day	5		%	0.006	0.006
-P3	l	log	-2.3025850929940455	1/day	5		%	0.1	0.1
-P4	m	log	-2.3025850929940455	1/day	5		%	0.1	0.1
-P5	q	log	-3.456330670981096	1/day	5		%		0.0315453
+!ID	!Name	!Scale	!DefaultValue	!Unit	!Std	!Comment	%	% Original Value	%NewValue:linspace
+P0	r0	log	0.9162907318741551	1	1	becoming exposed	%	2.5	2.5
+P1	a	log	-1.7047480922384253	1/day	1	becoming infectious	%	0.18181818181818182	0.18181818181818182
+P2	c	log	-5.115995809754082	1/day	1	becoming critically sick	%	0.006	0.006
+P3	l	log	-2.3025850929940455	1/day	1	normal recovery	%	0.1	0.1
+P4	m	log	-2.3025850929940455	1/day	1	critical recovery	%	0.1	0.1
+P5	q	log	-3.456330670981096	1/day	1	dying while critically sick	%		0.0315453
 P6	g	linear	10	day	10	first infection	%		
+P7	r0_dist	log	0.9162907318741551	1/day	1	becoming exposed when people are careful not to get exposed	%		

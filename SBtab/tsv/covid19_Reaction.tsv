@@ -1,6 +1,6 @@
 !!SBtab	Document='covid19' TableName='Reaction' TableType='Reaction' TableTitle='disease spreading dynamics'			
 !ID	!Name	!KineticLaw	!ReactionFormula	!Comment
-R0	infection	b*Infectious*Susceptible	Susceptible + Infectious <=> Exposed + Infectious	
+R0	infection	B*Infectious*Susceptible	Susceptible + Infectious <=> Exposed + Infectious	
 R1	outbreak	a*Exposed	Exposed <=> Infectious	
 R2	critical	c*Infectious	Infectious <=> Krit	
 R3	quick_recovery	l*Infectious	Infectious <=> Recovered	

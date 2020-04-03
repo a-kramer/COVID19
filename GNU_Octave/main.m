@@ -2,7 +2,6 @@
 set(0,"defaulttextinterpreter","none")
 load("../data/covid19.h5");
 lsode_options("absolute tolerance",1e-12);
-#SampleFile="../mcmc_rank_00_of_8_covid19_covid19_2020-03-25T17h56m.h5"
 SampleFiles=cellstr(ls("-t ../*h5"));
 T0=-30;
 l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));

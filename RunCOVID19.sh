@@ -8,12 +8,12 @@ ModelHDF5=./data/${Model}.h5
 SampleFileDate="`date +%Y-%m-%dT%Hh%Mm`"
 SampleFile="$SampleFileDate.h5"
 
-DefaultSampleSize=400000
-DefaultWarmUp=20000
+DefaultSampleSize=100000
+DefaultWarmUp=2000
 SampleSize=${2:-$DefaultSampleSize}
 WarmUp=${3:-$DefaultWarmUp}
 StepSize="0.02";
-T0="-30"
+T0="-40"
 M="1.5"
 
 #RESUME="TRUE"
