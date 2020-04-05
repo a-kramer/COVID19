@@ -4,3 +4,8 @@
 *.h5
 *.tar*
 *.zip
+*~
+*.log
+vfgen/*tsv
+*.out
+*.err
