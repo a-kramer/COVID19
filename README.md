@@ -21,6 +21,33 @@ by [vfgen](https://warrenweckesser.github.io/vfgen/).
 
 Almost all other folders represent this automatic export of the model.
 
+Please note that for the most part no wrapper scripts are included to
+actually simulate the model. To make a simulation happen, initial conditions have to be set and a solver needs to be called.
+
+# Initial Conditions
+
+Simlations should be started at `t0=-30` or earlier. The model creates the first _infected_ itself (no infection needs to be present initially). When this happens is gouverned by the parameter `g`.
+
+# Conservation of population
+
+Because the overall sum of all states (listed in `Compound`) does not
+change within the model, the susceptible population is actually
+modeled as `Susceptible = 1 - $AllOtherStates`. No Initial condition
+needs to be set for it (it's equal to the above expression at `t0` as
+well).
+
+But, if needed, the constant (`1`, sum of all states) can be set to
+different values as well. The value is called `Susceptible_ConservedConst` in
+the model files. It is declared as an input parameter.
+
+The conservation law analysis `cla` happens automatically in SBtabVFGEN and
+can be turned off if it is confusing:
+```R
+sbtab.tsv <- dir(pattern="covid19.*tsv")
+sbtab <- sbtab_from_tsv(sbtab.tsv)
+vfgen.model <- sbtab_to_vfgen(sbtab,cla=FALSE)`
+```
+
 # Limitations
 
 The structure and concepts in the spreadsheet are limited by what is
@@ -65,3 +92,5 @@ The event we included is the behavioral change in the population
 # GNU Octave
 
 This folder holds scripts that can be used to process the sampling results. Many of the subroutines mentioned in those scripts can be found in the [scripts](https://github.com/a-kramer/scripts) repository, except [UWerr.m](https://www.physik.hu-berlin.de/de/com/ALPHAsoft), see also [UWerr.R](https://github.com/HISKP-LQCD/hadron/blob/master/R/UWerr.R) and [py-uwerr](https://github.com/dhesse/py-uwerr). Details can be found in the [Original publication](https://arxiv.org/abs/hep-lat/0306017).
+
+The model for _GNU Octave_ and _matlab_ is actually the same (as these two are quite compatible by design).
