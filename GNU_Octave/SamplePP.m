@@ -16,7 +16,7 @@ length(LogPosterior)
 [v,dv,ddv,tau,dtau,gof]=UWerr(LogPosterior');
 
 ## apply filters on parameters to exclude combinations that are very unlikely:
-[LogPosterior,LogParameters]=filters(LogPosterior,LogParameters);
+## [LogPosterior,LogParameters]=filters(LogPosterior,LogParameters);
 
 
 cc=corrcoef(LogParameters');

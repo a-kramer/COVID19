@@ -24,8 +24,8 @@ else
   k=k_MPE;
   ## apply filters on parameters to exclude combinations that are very unlikely:
   N=length(LogPosterior);
-  [LogPosterior,LogParameters]=filters(LogPosterior,LogParameters);
-  printf("after filtering %i of %i parameter sets remain.\n",length(LogPosterior),N);
+  #[LogPosterior,LogParameters]=filters(LogPosterior,LogParameters);
+  #printf("after filtering %i of %i parameter sets remain.\n",length(LogPosterior),N);
   ModelName="covid19";
   ParNames=ostrsplit(ParameterNames,"; ",true);
   np=length(ParNames);
@@ -61,6 +61,7 @@ else
   SD_Y=cell(NumExp,1);
   for i=1:NumExp
     ExpName=covid19.Experiments(i).("!Name");
+    assert(~isempty(ExpName));
     Data{i}=covid19.(ExpName);
     Time{i}=cat(1,Data{i}.("!Time"));
     nT=length(Time{i});

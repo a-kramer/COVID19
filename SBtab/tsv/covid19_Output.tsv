@@ -1,10 +1,10 @@
 !!SBtab	Document='covid19' TableName='Output' TableTitle='Automatically determined conservation laws remove state variables, these outputs make them observable' TableType='Quantity'						
-!ID	!Name	!Comment	!ErrorName	!ErrorType	!Unit	!ProbDist	!Formula
-YCL1	Susceptible_mon	monitors implicit state	SDYCL1	not applicable	1	none	Susceptible
-INFCT	Infectious_underestimate		SDINFCT	standard deviation	1	normal	Infectious
-REC	Recovered_underestimate		SDREC	standard deviation	1	normal	Recovered
-DEAD	Deaths_recorded		SDDEAD	standard deviation	1	normal	Dead
-KRIT	Critically_sick		SDKRIT	standard deviation	1	normal	Krit
-NEQ0	inequality_constraint_recovery	soft version of: l > m	SDNEQ0	standard deviation	1	normal	1./(1+exp(-(l-m)/0.2))
-NEQ1	inequality_constraint_infection	soft version of: r0 > r0_dist	SDNEQ1	standard deviation	1	normal	1./(1+exp(-(r0-r0_dist)/0.2))
-HOSP	hospital_beds	people in hospitals	SDHOSP	standard deviation	1	normal	h*Infectious
+!ID	!Name	!ErrorName	!ErrorType	!Unit	!ProbDist	!Formula	!Comment
+YCL1	Susceptible_mon	SDYCL1	not applicable	1	none	Susceptible	
+INFCT	Infectious_underestimate	SDINFCT	standard deviation	1	normal	Infectious	
+REC	Recovered_underestimate	SDREC	standard deviation	1	normal	Recovered	
+DEAD	Deaths_recorded	SDDEAD	standard deviation	1	normal	Dead	
+KRIT	Critically_sick	SDKRIT	standard deviation	1	normal	Krit	
+NEQ0	inequality_constraint_recovery	SDNEQ0	standard deviation	1	normal	1./(1+exp(-(l-m)/0.2))	this is true if expr. equals to one, but fuzzy
+NEQ1	inequality_constraint_infection	SDNEQ1	standard deviation	1	normal	1./(1+exp(-(r0-r0_dist)/0.2))	so, 0.8 is quite true, but solutions that violate this are allowed
+HOSP	hospital_beds	SDHOSP	standard deviation	1	normal	h*Infectious	
