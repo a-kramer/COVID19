@@ -12,7 +12,7 @@ VFGEN = vfgen
 VFGEN_W_CVODES = ~/mcmc_clib/vfgen
 
 
-all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c ./SBtab/$(MODEL).tar.gz ./SBtab/$(MODEL).zip ./SBtab/tsv/$(MODEL)_Experiments.tsv ./python/$(MODEL).py ./SBtab/$(MODEL).ods
+all: ./C/$(MODEL).so ./vfgen/$(MODEL).vf ./data/$(MODEL).h5 ./matlab/$(MODEL)_vf.m ./C/$(MODEL)_cvs.c ./C/$(MODEL)_cvs_lpow.c ./SBtab/$(MODEL).tar.gz ./SBtab/$(MODEL).zip ./SBtab/tsv/$(MODEL)_Experiments.tsv ./python/$(MODEL).py
 
 clean:
 	rm ./C/$(MODEL).so ./data/$(MODEL).h5 ./matlab/$(MODEL)_*.m ./SBtab/tsv/$(MODEL)_*.tsv ./C/$(MODEL)_cvs.[ch] ./vfgen/$(MODEL).vf
@@ -44,11 +44,11 @@ clean:
 ./SBtab/$(MODEL).zip: ./SBtab/tsv/$(MODEL)*.tsv
 	zip $@ $^
 
-./SBtab/tsv/$(MODEL)_Experiments.tsv: ./SBtab/$(MODEL).gnumeric
-	cd ./SBtab/tsv && ./ods_to_tsv ../$(MODEL).gnumeric
+./SBtab/tsv/$(MODEL)_Experiments.tsv: ./SBtab/$(MODEL).ods
+	cd ./SBtab/tsv && ./ods_to_tsv ../$(MODEL).ods
 
 ./python/$(MODEL).py: vfgen/$(MODEL).vf
 	cd python && $(VFGEN) scipy ../vfgen/$(MODEL).vf
 
-./SBtab/$(MODEL).ods: ./SBtab/$(MODEL).gnumeric
-	ssconvert $< $@
+#./SBtab/$(MODEL).ods: ./SBtab/$(MODEL).gnumeric
+#	ssconvert $< $@

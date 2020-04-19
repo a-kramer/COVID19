@@ -1,3 +1,4 @@
 !!SBtab	Document='covid19' TableName='Experiments' TableType='QuantityMatrix' TableTitle='rates'			
 !ID	!Name	!Type	!Event	!Reference
-E0	Observations	Time Series	Distancing	https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Sweden
+%E0	Sweden	Time Series	Distancing	https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Sweden
+E1	Stockholm	Time Series	Distancing	c19.se

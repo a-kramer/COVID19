@@ -8,8 +8,8 @@ ModelHDF5=./data/${Model}.h5
 SampleFileDate="`date +%Y-%m-%dT%Hh%Mm`"
 SampleFile="$SampleFileDate.h5"
 
-DefaultSampleSize=100000
-DefaultWarmUp=2000
+DefaultSampleSize=600000
+DefaultWarmUp=9000
 SampleSize=${2:-$DefaultSampleSize}
 WarmUp=${3:-$DefaultWarmUp}
 StepSize="0.02";
@@ -28,7 +28,6 @@ n_cpu=`egrep processor /proc/cpuinfo | wc -l`
 ((n_cores=n_cpu/2))
 NP=${1:-$n_cores}
 P=`h5dump -A -d /prior/mu ${ModelHDF5} | egrep DATASPACE | sed -E 's/.*\{\s*\( ([0-9]+).*/\1/'`
-
 
 export OMP_NUM_THREADS=2
 
@@ -55,7 +54,6 @@ SMMALA="$HOME/mcmc_clib/bin/ode_smmala"
 
 # the actual parameter estimation:
 ModelHDF5="./data/${Model}.h5"
-SampleFile="all_data_$SampleFileDate"
 CurrentCommand="$MPICMD -np $NP $SMMALA $OPTIONS"
 echo ${CurrentCommand} 
 ${CurrentCommand} 2> ${Model}.err

@@ -7,6 +7,6 @@ X2	DIFFSQ	DIFF*DIFF	convenience expression
 X3	EDIFFSQ	exp(-0.5*DIFFSQ)	convenience expression
 X4	NORM	sqrt(2*Pi)*sigma	normalisation to 1.0
 N	Gaussian	EDIFFSQ/NORM	probability density of first infection
-	b	r0*l	becoming exposed/duration of sickness
-	b_dist	r0_dist*l	same, but after social distancing in effect
+XB_PRE	b	r0*l	becoming exposed/duration of sickness
+XB_POST	b_dist	r0_dist*l	same, but after social distancing in effect
 Distancing_Switch	B	(b*(1-distancing_on) + b_dist*distancing_on) 	b when distancing is off (0) or b_dist when distancing is on (1)

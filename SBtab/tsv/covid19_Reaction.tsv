@@ -5,5 +5,6 @@ R1	outbreak	a*Exposed	Exposed <=> Infectious
 R2	critical	c*Infectious	Infectious <=> Krit	
 R3	quick_recovery	l*Infectious	Infectious <=> Recovered	
 R4	late_recovery	m*Krit	Krit <=> Recovered	we don't have data on this
-R5	death	q*Krit	Krit <=> Dead	but we do have data for this
+R5	critical_death	q*Krit	Krit <=> Dead	but we do have data for this
+R51	infectious_death	qq*Infectious	Infectious <=> Dead	
 R6	initial_infection	Gaussian/Population	Susceptible <=> Infectious	this only happens at negative times

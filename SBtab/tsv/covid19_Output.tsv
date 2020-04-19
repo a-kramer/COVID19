@@ -5,3 +5,6 @@ INFCT	Infectious_underestimate		SDINFCT	standard deviation	1	normal	Infectious
 REC	Recovered_underestimate		SDREC	standard deviation	1	normal	Recovered
 DEAD	Deaths_recorded		SDDEAD	standard deviation	1	normal	Dead
 KRIT	Critically_sick		SDKRIT	standard deviation	1	normal	Krit
+NEQ0	inequality_constraint_recovery	soft version of: l > m	SDNEQ0	standard deviation	1	normal	1./(1+exp(-(l-m)/0.2))
+NEQ1	inequality_constraint_infection	soft version of: r0 > r0_dist	SDNEQ1	standard deviation	1	normal	1./(1+exp(-(r0-r0_dist)/0.2))
+HOSP	hospital_beds	people in hospitals	SDHOSP	standard deviation	1	normal	h*Infectious
