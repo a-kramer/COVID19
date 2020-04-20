@@ -1,5 +1,5 @@
 %
-% covid19_Recovered_underestimate.m
+% covid19_inequality_constraint_recovery.m
 %
 % MATLAB user function for the vector field: covid19
 %
@@ -7,7 +7,7 @@
 % Generated on 20-Apr-2020 at 01:58
 %
 %
-function r_ = covid19_Recovered_underestimate(t,x_,p_)
+function r_ = covid19_inequality_constraint_recovery(t,x_,p_)
     Pi = pi;
     Population = 10120000;
     StockholmPopulation = 2377081;
@@ -47,4 +47,4 @@ function r_ = covid19_Recovered_underestimate(t,x_,p_)
     critical_death = q*Krit;
     infectious_death = Infectious*qq;
     initial_infection = Population^(-1)*Gaussian;
-    r_ = Recovered;
+    r_ = (1+exp((5.0)*m-(5.0)*l))^(-1);
