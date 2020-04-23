@@ -22,7 +22,17 @@ by [vfgen](https://warrenweckesser.github.io/vfgen/).
 Almost all other folders represent this automatic export of the model.
 
 Please note that for the most part no wrapper scripts are included to
-actually simulate the model. To make a simulation happen, initial conditions have to be set and a solver needs to be called.
+actually simulate the model. To make a simulation happen, initial
+conditions have to be set and a solver needs to be called.
+
+# Preliminary MCMC results
+
+Based on somewhat sketchy data and without randomized testing of
+infection levels it is hard to make any predictions. We are working on
+gathering data from public sources that we consider reliable for these
+purposes. Some of the results can be seen in this [google photos
+gallery](https://photos.app.goo.gl/pVBU2Tpoz9cAeSts9).
+
 
 # Initial Conditions
 
@@ -74,26 +84,52 @@ differential equations.
 
 # TSV
 
-The spreadsheet is split up into `tsv` files (one per sheet) and it is these files that are processed by the other scripts and programs (as they are easier to parse). The conversion is done by `ssconvert` from the [gnumeric](http://www.gnumeric.org/) package.
+The spreadsheet is split up into `tsv` files (one per sheet) and it is
+these files that are processed by the other scripts and programs (as
+they are easier to parse). The conversion is done by `ssconvert` from
+the [gnumeric](http://www.gnumeric.org/) package.
 
 # MCMC sampling
 
-Ultimately this model is sampled using [ode_smmala](https://github.com/a-kramer/mcmc_clib). The result is a sample of model parameterizations that are compatible with the data inside the SBtab spreadsheet.
+Ultimately this model is sampled using
+[ode_smmala](https://github.com/a-kramer/mcmc_clib). The result is a
+sample of model parameterizations that are compatible with the data
+inside the SBtab spreadsheet.
 
 # Data
 
-The data is being updated and more reliable sources are being gathered. The data points in the spreadsheet are converted into an `hdf5` file (in the data folder). The data inside of that file is annotated with instructions on how to run the simulation.
+The data is being updated and more reliable sources are being
+gathered. The data points in the spreadsheet are converted into an
+`hdf5` file (in the data folder). The data inside of that file is
+annotated with instructions on how to run the simulation.
 
-The setup inside the spreadsheet contains an _Event_ (`!Event` column). We call something an event when either the state or the input parameters to he model have to be changed mid simulation. In such a case a simulation has to be stopped and the change needs to be applied. Then the simulation is restarted from the new state (or input conditions).
+The setup inside the spreadsheet contains an _Event_ (`!Event`
+column). We call something an event when either the state or the input
+parameters to he model have to be changed mid simulation. In such a
+case a simulation has to be stopped and the change needs to be
+applied. Then the simulation is restarted from the new state (or input
+conditions).
 
 The event we included is the behavioral change in the population
-(solcial distancing). The model does not yet assume that social distancing must have worked. The consequences of this effect are entirely subject to model fitting; the model is free enough to permit anyh outcome of the change in behaviour.
+(solcial distancing). The model does not yet assume that social
+distancing must have worked. The consequences of this effect are
+entirely subject to model fitting; the model is free enough to permit
+anyh outcome of the change in behaviour.
 
 # GNU Octave
 
-This folder holds scripts that can be used to process the sampling results. Many of the subroutines mentioned in those scripts can be found in the [scripts](https://github.com/a-kramer/scripts) repository, except [UWerr.m](https://www.physik.hu-berlin.de/de/com/ALPHAsoft), see also [UWerr.R](https://github.com/HISKP-LQCD/hadron/blob/master/R/UWerr.R) and [py-uwerr](https://github.com/dhesse/py-uwerr). Details can be found in the [Original publication](https://arxiv.org/abs/hep-lat/0306017).
+This folder holds scripts that can be used to process the sampling
+results. Many of the subroutines mentioned in those scripts can be
+found in the [scripts](https://github.com/a-kramer/scripts)
+repository, except
+[UWerr.m](https://www.physik.hu-berlin.de/de/com/ALPHAsoft), see also
+[UWerr.R](https://github.com/HISKP-LQCD/hadron/blob/master/R/UWerr.R)
+and [py-uwerr](https://github.com/dhesse/py-uwerr). Details can be
+found in the [Original
+publication](https://arxiv.org/abs/hep-lat/0306017).
 
-The model for _GNU Octave_ and _matlab_ is actually the same (as these two are quite compatible by design).
+The model for _GNU Octave_ and _matlab_ is actually the same (as these
+two are quite compatible by design).
 
 # Parameters
 
