@@ -7,7 +7,7 @@ if exist("loading_and_sim_done","var") && loading_and_sim_done==true;
   printf("data and model are loaded, skipping everything except plotting.\n");
 else
   load("../data/covid19.h5");
-  SampleFiles=cellstr(ls("-t ../*h5"));
+  SampleFiles=cellstr(ls("-t ../*.h5"));
   T0=-30;
   l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));
   i=find(l,1);
@@ -117,7 +117,7 @@ else
 	if (any(isna(SIM.X{1}(:))))
 	  failures++;
 	endif
-	save("-binary",save_file,"SIM","k");
+	#save("-binary",save_file,"SIM","k");
       endif
       for j=1:NumOut
 	ft(:,i,j)=interp1(SIM.T{1},SIM.F{1}(:,j),time);

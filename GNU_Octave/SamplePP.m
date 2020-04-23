@@ -1,5 +1,5 @@
 #!/usr/bin/octave-cli -q
-SampleFiles=cellstr(ls("-t ../*h5"));
+SampleFiles=cellstr(ls("-t ../*.h5"));
 l=~cellfun(@isempty,strfind(SampleFiles,"mcmc_rank_00"));
 i=find(l,1);
 SampleFile=SampleFiles{i};
@@ -52,7 +52,6 @@ opt.colormap=custom_colormap(v,clr,128);
 
 pcplot(LogParameters(I,s),LogPosterior(s),opt);
 ylabel("parameter value (log)");
-title("constraint: l>m");
 YL=ylim();
 ta=text((1:m-1)+0.5,ones(1,m-1)*YL(2),ccvl);
 set(ta,"color",ones(1,3)*0.3);
@@ -75,4 +74,4 @@ set(gcf,"paperorientation","landscape");
 set(gcf,"paperposition",[0,0,PS]);
 #set(gca,"position",[0.05,0.15,0.8,0.8]);
 print -dsvg FullSample.svg
-saveas(gcf,"FullSample.png")
+saveas(gcf,sprintf("%s-FullSample.png",FPrefix))
