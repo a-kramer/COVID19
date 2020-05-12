@@ -30,8 +30,11 @@ conditions have to be set and a solver needs to be called.
 Based on somewhat sketchy data and without randomized testing of
 infection levels it is hard to make any predictions. We are working on
 gathering data from public sources that we consider reliable for these
-purposes. Some of the results can be seen in this [google photos
-gallery](https://photos.app.goo.gl/pVBU2Tpoz9cAeSts9).
+purposes. Some of the results can be seen here:
+1. [google photos gallery](https://photos.app.goo.gl/pVBU2Tpoz9cAeSts9) with some of the data treated as validation data.
+2. [updated gallery](https://photos.app.goo.gl/UD2t5tcUzXYwAPTE6) where all data is used to adjust the model.
+
+The model predicted  the current state of affairs as the worst case scenario regarding deaths (in gallery 1).
 
 
 # Initial Conditions

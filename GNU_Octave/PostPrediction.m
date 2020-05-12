@@ -3,6 +3,11 @@ set(0,"defaulttextinterpreter","none")
 lsode_options("absolute tolerance",1e-13);
 lsode_options("step limit",7e3);
 
+day0=[2020,01,31,0,0,0];
+day_of_sampling=101;
+day=datenum(day0);
+FCODE=29; # -> 2020-01-31
+
 if exist("loading_and_sim_done","var") && loading_and_sim_done==true;
   printf("data and model are loaded, skipping everything except plotting.\n");
 else
@@ -32,7 +37,7 @@ else
   d=rows(LogParameters);
   unames=ParNames(d+1:np)
   StateVarNames=ostrsplit(StateVariableNames,"; ",true);
-  svnames=StateVarNames
+  svnames=StateVarNames;
   FuncNames=ostrsplit(OutputFunctionNames,"; ",true);
   printf("maximum posterior estimat (%g):\n",MPE);
   printf(" %g\n",exp(k));
@@ -54,7 +59,7 @@ else
   assert(isfield(covid19,"Output"));
   assert(isfield(covid19,"Parameter"));
   NumExp=length(covid19.Experiments);
-
+  
   ## experimental data from sbtab:
   Data=cell(NumExp,1);
   Y=cell(NumExp,1);
@@ -64,6 +69,7 @@ else
     assert(~isempty(ExpName));
     Data{i}=covid19.(ExpName);
     Time{i}=cat(1,Data{i}.("!Time"));
+    used{i}=Time{i}<day_of_sampling;
     nT=length(Time{i});
     Y{i}=NA(nT,NumOut);
     SD_Y{i}=NA(nT,NumOut);
@@ -71,7 +77,7 @@ else
       ## list of non conservation law input ids
       ID.Input=as_cstr(covid19.Input,"!ID");
       ## list of state variable ids
-      ID.StateVar=as_cstr(covid19.Compound,"!ID")(2:end); # the first on is removed by con.-law
+      ID.StateVar=as_cstr(covid19.Compound,"!ID")(2:end); # the first one is removed by con.-law
       ev=sbtab_load_events(ID.StateVar,ID.Input,covid19);
     endif
     for j=1:NumOut
@@ -141,7 +147,9 @@ clr=[0,0,0;
      0.9,0.9,0.9;
      1,1,1];
 CMAP=custom_colormap(v,clr,128);
-
+now_color=[0.2,0.8,0.2];
+data_color=[0.8,0.2,0.2];
+val_color=[0.8,0.8,0.2];
 for j=1:NumOut
   figure(j); clf();
   title(covid19.Experiments(1).("!Name"));
@@ -150,17 +158,33 @@ for j=1:NumOut
   l=isna(SD);
   opt.colormap=CMAP;
   colorline_plot(time,ft(:,:,j),LogPosterior(I),opt);
+  axis("tight");
+  xl=get(gca,"xtick");
+  xl_dates=cellstr(datestr(day+xl,FCODE));
+  set(gca,"xticklabel",xl_dates);
+  set(gca,"xticklabelrotation",45);
+  LIM.x=xlim();
+  LIM.y=ylim();
   hold on;
+  plot(day_of_sampling*[1,1],LIM.y,":;day of sampling;","color",now_color);
   cb=colorbar();
   set(cb,'title',"log-posterior");
+  
   if any(l)
-    plot(Time{Ei}(l),D(l),"+;;")
+    i=l & used{Ei};
+    plot(Time{Ei}(i),D(i),"+;no data;");
+    i=l & ~used{Ei};
+    plot(Time{Ei}(i),D(i),"+;no data;");
   endif
   if any(~l)
-    eh=errorbar(Time{Ei}(~l),D(~l),SD(~l),sprintf("~+;data;"));
-    set(eh,"color",[0.8,0.2,0.2]);
+    i=~l & used{Ei};
+    eh=errorbar(Time{Ei}(i),D(i),SD(i),sprintf("~+;used data;"));
+    set(eh,"color",data_color);
+    i=~l & ~used{Ei};
+    eh=errorbar(Time{Ei}(i),D(i),SD(i),sprintf("~+;validation;"));
+    set(eh,"color",val_color);    
   endif
-  title("constraint: l>m");
+  title("Data, Simulations and Validation Data");
   xlabel("t");
   ylabel(covid19.Output(j).("!Name"),'interpreter','none');
   pngf=sprintf("%s_UQ_OutputFunction%i.png",FPrefix,j);
@@ -175,16 +199,31 @@ for j=1:NumOut
   D=Y{Ei}(:,j);
   SD=SD_Y{Ei}(:,j);
   l=isna(SD);
-  
   [bph]=boxplot(time(ts),ft(ts,:,j)');
+  axis("tight");
+  xl=get(gca,"xtick");
+  xl_dates=cellstr(datestr(day+xl,FCODE));
+  set(gca,"xticklabel",xl_dates);
+  set(gca,"xticklabelrotation",45);
+  LIM.x=xlim();
+  LIM.y=ylim();
   hold on;
+  plot(day_of_sampling*[1,1],LIM.y,":;day of sampling;","color",now_color);
   if any(l)
-    plot(Time{Ei}(l),D(l),"+;;")
+    i=l & used{Ei};
+    plot(Time{Ei}(i),D(i),"+;;");
+    i=l & ~used{Ei};
+    plot(Time{Ei}(i),D(i),"+;;");
   endif
   if any(~l)
-    errorbar(Time{Ei}(~l),D(~l),SD(~l),sprintf("~+;data;"));
+    i=~l & used{Ei};
+    eh=errorbar(Time{Ei}(i),D(i),SD(i),sprintf("~+;used data;"));
+    set(eh,"color",data_color);
+    i=~l & ~used{Ei};
+    eh=errorbar(Time{Ei}(i),D(i),SD(i),sprintf("~+;validation;"));
+    set(eh,"color",val_color);    
   endif
-  title("constraint: l>m");
+  title("Data, Simulations and Validation Data");
   xlabel("t");
   ylabel(covid19.Output(j).("!Name"),'interpreter','none');
   pngf=sprintf("%s_UQBOX_OutputFunction%i.png",FPrefix,j);

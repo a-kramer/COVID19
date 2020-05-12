@@ -1,7 +1,7 @@
 TITLE covid19
 COMMENT
 	automatically generated from an SBtab file
-	date: Mon Apr 20 01:58:09 2020
+	date: Tue May 12 14:37:15 2020
 ENDCOMMENT
 NEURON {
 	SUFFIX covid19 : OR perhaps POINT_PROCESS ?
