@@ -36,12 +36,25 @@ purposes. Some of the results can be seen here:
 
 The model predicted  the current state of affairs as the worst case scenario regarding deaths (in gallery 1).
 
+# Possible Improvements
 
-# Initial Conditions
+1. Use delays (`DDE` rather than `ODE`)
+    + in the mechanism of infection
+	+ in the mechanism for hospitalization
+2. Compare different models via 
+    + Bayes factors
+	+ prediction quality
+3. regional model with cross-inections between the regions
+    
+# The Model
+
+This is a modified SEIR model with events (instantaneous, not smooth, changes in parameters and state variables are possible).
+
+## Initial Conditions
 
 Simlations should be started at `t0=-30` or earlier. The model creates the first _infected_ itself (no infection needs to be present initially). When this happens is gouverned by the parameter `g`.
 
-# Conservation of population
+## Conservation of population
 
 Because the overall sum of all states (listed in `Compound`) does not
 change within the model, the susceptible population is actually
